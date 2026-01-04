@@ -1,0 +1,36 @@
+# SageMaker Pipeline Configuration
+# Replace with your actual AWS values
+
+role_arn: "arn:aws:iam::123456789012:role/SageMakerExecutionRole"
+bucket_name: "mlops-nyc-taxi-2025"
+region: "us-east-1"
+instance_type: "ml.m5.xlarge"
+instance_count: 1
+
+training:
+  entry_point: "train_entrypoint.py"
+  source_dir: "scripts/sagemaker"
+  framework_version: "1.0-1"
+  hyperparameters:
+    n_estimators: 100
+    max_depth: 10
+    min_samples_split: 2
+    min_samples_leaf: 1
+    random_state: 42
+  input_data_path: "s3://{bucket_name}/data/train"
+  output_model_path: "s3://{bucket_name}/models"
+
+inference:
+  entry_point: "inference_entrypoint.py"
+  source_dir: "scripts/sagemaker"
+  framework_version: "1.0-1"
+  model_name: "NYCTaxiModel"
+  input_data_path: "s3://{bucket_name}/data/test"
+  output_data_path: "s3://{bucket_name}/predictions"
+
+# Data paths
+data_paths:
+  train: "s3://{bucket_name}/data/train.csv"
+  test: "s3://{bucket_name}/data/test.csv"
+  raw: "s3://{bucket_name}/data/raw/"
+  processed: "s3://{bucket_name}/data/processed/"
