@@ -8,12 +8,12 @@ from .train import (
     load_config_from_file,
     load_training_data
 )
-from .model_trainer import ModelTrainer
+from .taxi_trainer import TaxiDurationTrainer
 
 __all__ = [
     "train_model",
     "TrainConfig", 
     "load_config_from_file",
     "load_training_data",
-    "ModelTrainer"
+    "TaxiDurationTrainer"
 ]
