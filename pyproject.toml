@@ -11,3 +11,6 @@ dependencies = [
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.core"
+[project.scripts]
+train = "scripts.train:main"
+inference = "scripts.batch_inference:main"
