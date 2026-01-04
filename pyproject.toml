@@ -14,3 +14,10 @@ build-backend = "hatchling.core"
 [project.scripts]
 train = "scripts.train:main"
 inference = "scripts.batch_inference:main"
+
+[project.optional-dependencies]
+sagemaker = [
+    "sagemaker>=2.207.0",
+    "boto3>=1.34.0",
+    "pyyaml>=6.0"
+]
