@@ -1,0 +1,15 @@
+# Training configuration for NYC Taxi Trip Duration prediction
+
+# Data paths
+features_path: "data/processed/features.parquet"
+labels_path: "data/processed/labels.parquet"
+
+# Model parameters
+model_type: "random_forest"
+random_state: 42
+test_size: 0.2
+
+# Output paths
+model_output_dir: "models"
+metrics_output_dir: "reports"
+best_model_filename: "best_model.joblib"
