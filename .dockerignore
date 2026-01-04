@@ -1,0 +1,33 @@
+# Ignore Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore virtual environment
+.venv/
+env/
+venv/
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore data and model directories (mounted as volumes)
+data/
+models/
+reports/
+mlflow_data/
+
+# Ignore Git
+.git/
+.gitignore
+
+# Ignore macOS files
+.DS_Store
+
+# Ignore test and notebook files
+tests/
+notebooks/
+*.ipynb
