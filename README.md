@@ -5,7 +5,7 @@
 **Team:** Carla & Mariane  
 **Course:** MLOps Course - USJ  
 **Repository:** https://github.com/carlasleiman/mlops2025_carla_mariane
-
+```
 ## 📁 Project Structure
 mlops2025_carla_mariane/
 ├── src/mlproject/
@@ -29,7 +29,7 @@ mlops2025_carla_mariane/
 ├── pyproject.toml # Package config (Carla)
 ├── uv.lock # Locked dependencies (Carla)
 └── README.md # Documentation (Carla)
-
+```
 text
 
 ## 🚀 Quick Start
