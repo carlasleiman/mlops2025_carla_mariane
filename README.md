@@ -1,6 +1,9 @@
 # mlops2025_carla_mariane
+
 End-to-End ML Project - NYC Taxi Trip Duration Prediction
+
 mlops2025_carla_mariane/
+
 ├── .github/workflows/          # CI/CD pipelines
 ├── src/mlproject/              # Source code package
 │   ├── data/                   # Data utilities
@@ -27,7 +30,8 @@ mlops2025_carla_mariane/
 └── README.md                   # Project documentation
 
 👥 Team Contributions
-Carla Sleiman
+Carla Sleiman:
+
 CI/CD Pipeline: GitHub Actions workflow, automation
 
 Containerization: Dockerfile, docker-compose setup
@@ -40,7 +44,8 @@ Configuration: OmegaConf setup, project configuration
 
 Packaging: src/ layout, pyproject.toml, dependency management
 
-Mariane
+Mariane:
+
 Feature Engineering: Time-based features, distance calculations (Haversine)
 
 Inference Pipeline: Batch prediction system, output generation
