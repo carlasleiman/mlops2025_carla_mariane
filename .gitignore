@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.py[cod]
+.env
+venv/
+.venv/
+
+# Docker
+docker-image.tar
+
+# OS
+.DS_Store
