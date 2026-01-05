@@ -38,14 +38,14 @@ text
 git clone https://github.com/carlasleiman/mlops2025_carla_mariane.git
 cd mlops2025_carla_mariane
 uv sync
-2. Run Pipeline
+###2. Run Pipeline
 bash
 # Full training pipeline
 uv run train
 
 # Generate predictions
 uv run inference
-3. Individual Stages
+###3. Individual Stages
 bash
 uv run python scripts/preprocess.py
 uv run python scripts/feature_engineering.py
