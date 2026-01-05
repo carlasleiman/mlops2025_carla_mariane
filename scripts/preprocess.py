@@ -1,118 +1,124 @@
+#!/usr/bin/env python3
+"""
+Preprocessing script for NYC Taxi Trip Duration dataset.
+Required by MLOps project structure.
+
+Usage:
+    python scripts/preprocess.py --input data/train.csv --output data/cleaned_train.csv
+"""
+import argparse
 import pandas as pd
 import numpy as np
-import argparse
-import os
 from pathlib import Path
+import sys
 
-def load_data(filepath):
-    """Load CSV data."""
-    print(f"Loading data from {filepath}")
-    return pd.read_csv(filepath)
+def parse_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(description='Preprocess NYC Taxi data')
+    parser.add_argument('--input', type=str, required=True,
+                       help='Input CSV file path')
+    parser.add_argument('--output', type=str, required=True,
+                       help='Output CSV file path')
+    parser.add_argument('--verbose', action='store_true',
+                       help='Enable verbose output')
+    return parser.parse_args()
 
-def clean_data(df):
-    """Clean the NYC taxi dataset - handles all 4 requirements."""
-    print("Cleaning data...")
+def load_data(file_path):
+    """Load CSV file."""
+    print(f"📂 Loading data from {file_path}")
+    df = pd.read_csv(file_path)
+    print(f"   Loaded {len(df)} rows, {len(df.columns)} columns")
+    return df
+
+def clean_data(df, verbose=False):
+    """
+    Clean the NYC Taxi dataset.
     
-    # Make a copy so we don't modify the original
+    Steps:
+    1. Remove rows with missing coordinates
+    2. Handle missing passenger counts
+    3. Convert datetime columns
+    4. Remove invalid coordinates
+    """
     df_clean = df.copy()
     
-    # 1. HANDLE MISSING VALUES (REQUIREMENT 1)
-    print("  1. Handling missing values...")
+    # 1. Handle missing coordinates
+    coord_cols = ['pickup_longitude', 'pickup_latitude',
+                  'dropoff_longitude', 'dropoff_latitude']
     
-    # For numeric columns, fill with median
-    numeric_cols = df_clean.select_dtypes(include=[np.number]).columns
-    for col in numeric_cols:
-        if df_clean[col].isnull().any():
-            median_val = df_clean[col].median()
-            df_clean[col] = df_clean[col].fillna(median_val)
-            print(f"     - Filled missing values in {col} with median: {median_val}")
+    initial_rows = len(df_clean)
+    df_clean = df_clean.dropna(subset=coord_cols)
+    removed = initial_rows - len(df_clean)
+    if verbose and removed > 0:
+        print(f"   Removed {removed} rows with missing coordinates")
     
-    # For categorical columns, fill with mode (most common)
-    categorical_cols = df_clean.select_dtypes(include=['object']).columns
-    for col in categorical_cols:
-        if df_clean[col].isnull().any():
-            mode_val = df_clean[col].mode()[0] if not df_clean[col].mode().empty else 'Unknown'
-            df_clean[col] = df_clean[col].fillna(mode_val)
-            print(f"     - Filled missing values in {col} with mode: {mode_val}")
-    
-    # 2. REMOVE OR FIX INVALID ROWS (REQUIREMENT 2)
-    print("  2. Removing invalid rows...")
-    initial_rows = df_clean.shape[0]
-    
-    # Remove rows where trip duration is negative or zero
-    if 'trip_duration' in df_clean.columns:
-        invalid_duration = df_clean[df_clean['trip_duration'] <= 0].shape[0]
-        df_clean = df_clean[df_clean['trip_duration'] > 0]
-        print(f"     - Removed {invalid_duration} rows with invalid trip duration")
-    
-    # Remove rows with unrealistic coordinates (outside NYC)
-    if all(col in df_clean.columns for col in ['pickup_latitude', 'pickup_longitude', 
-                                               'dropoff_latitude', 'dropoff_longitude']):
-        # NYC approximate bounds
-        nyc_lat_range = (40.5, 41.0)
-        nyc_lon_range = (-74.3, -73.7)
-        
-        valid_mask = (
-            df_clean['pickup_latitude'].between(*nyc_lat_range) &
-            df_clean['pickup_longitude'].between(*nyc_lon_range) &
-            df_clean['dropoff_latitude'].between(*nyc_lat_range) &
-            df_clean['dropoff_longitude'].between(*nyc_lon_range)
-        )
-        
-        invalid_coords = df_clean[~valid_mask].shape[0]
-        df_clean = df_clean[valid_mask]
-        print(f"     - Removed {invalid_coords} rows with coordinates outside NYC")
-    
-    # 3. BASIC CLEANING (REQUIREMENT 3)
-    print("  3. Performing basic cleaning...")
-    
-    # Remove duplicate rows
-    duplicates = df_clean.duplicated().sum()
-    df_clean = df_clean.drop_duplicates()
-    print(f"     - Removed {duplicates} duplicate rows")
-    
-    # Remove any rows where passenger count is 0 or negative
+    # 2. Fill missing passenger counts
     if 'passenger_count' in df_clean.columns:
-        invalid_passengers = df_clean[df_clean['passenger_count'] <= 0].shape[0]
-        df_clean = df_clean[df_clean['passenger_count'] > 0]
-        print(f"     - Removed {invalid_passengers} rows with invalid passenger count")
+        df_clean['passenger_count'] = df_clean['passenger_count'].fillna(1)
+        if verbose:
+            missing_filled = df['passenger_count'].isna().sum()
+            if missing_filled > 0:
+                print(f"   Filled {missing_filled} missing passenger counts with 1")
     
-    # 4. FINAL REPORT
-    final_rows = df_clean.shape[0]
-    rows_removed = initial_rows - final_rows
+    # 3. Convert datetime columns
+    datetime_cols = ['pickup_datetime', 'dropoff_datetime']
+    for col in datetime_cols:
+        if col in df_clean.columns:
+            df_clean[col] = pd.to_datetime(df_clean[col])
+            if verbose:
+                print(f"   Converted {col} to datetime")
     
-    print(f"\nCleaning complete:")
-    print(f"  - Initial rows: {initial_rows}")
-    print(f"  - Rows removed: {rows_removed}")
-    print(f"  - Final rows: {final_rows}")
-    print(f"  - Columns: {df_clean.shape[1]}")
+    # 4. Basic coordinate validation (NYC area)
+    nyc_lat_range = (40.5, 41.0)
+    nyc_lon_range = (-74.3, -73.7)
     
+    mask = (
+        df_clean['pickup_latitude'].between(*nyc_lat_range) &
+        df_clean['pickup_longitude'].between(*nyc_lon_range) &
+        df_clean['dropoff_latitude'].between(*nyc_lat_range) &
+        df_clean['dropoff_longitude'].between(*nyc_lon_range)
+    )
+    
+    invalid_rows = len(df_clean) - mask.sum()
+    df_clean = df_clean[mask]
+    
+    if verbose and invalid_rows > 0:
+        print(f"   Removed {invalid_rows} rows with coordinates outside NYC area")
+    
+    print(f"✅ Cleaning complete. Final shape: {df_clean.shape}")
     return df_clean
 
-def save_data(df, filepath):
-    """Save cleaned data (REQUIREMENT 4)."""
-    # Create directory if it doesn't exist
-    Path(filepath).parent.mkdir(parents=True, exist_ok=True)
-    
-    # Save as parquet (smaller, faster than CSV)
-    df.to_parquet(filepath, index=False)
-    print(f"\nSaved cleaned data to {filepath}")
+def save_data(df, output_path):
+    """Save processed data to CSV."""
+    print(f"💾 Saving cleaned data to {output_path}")
+    df.to_csv(output_path, index=False)
+    print(f"   Saved {len(df)} rows")
 
 def main():
-    parser = argparse.ArgumentParser(description="Preprocess NYC Taxi data")
-    parser.add_argument("--input", default="data/train.csv", help="Input CSV file")
-    parser.add_argument("--output", default="data/cleaned_train.parquet", help="Output file")
+    """Main preprocessing pipeline."""
+    args = parse_args()
     
-    args = parser.parse_args()
+    print("=" * 60)
+    print("🚀 STARTING PREPROCESSING PIPELINE")
+    print("=" * 60)
     
-    # Load data
-    df = load_data(args.input)
-    
-    # Clean data (handles all 4 requirements)
-    df_clean = clean_data(df)
-    
-    # Save cleaned data
-    save_data(df_clean, args.output)
+    try:
+        # 1. Load
+        df = load_data(args.input)
+        
+        # 2. Clean
+        df_clean = clean_data(df, verbose=args.verbose)
+        
+        # 3. Save
+        save_data(df_clean, args.output)
+        
+        print("=" * 60)
+        print("🎉 PREPROCESSING COMPLETE!")
+        print("=" * 60)
+        
+    except Exception as e:
+        print(f"❌ Error during preprocessing: {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

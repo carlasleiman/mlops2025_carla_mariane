@@ -1,38 +1,57 @@
-# Data files - NEVER commit to git
-data/
-*.csv
-*.parquet
-*.pkl
-*.joblib
-
-# Python cache
+# Python
 __pycache__/
 *.py[cod]
+.env
+venv/
+.venv/
+
+# Docker
+docker-image.tar
+
+# OS
+.DS_Store
+
+# From main branch
 *$py.class
 
-# Virtual environments
-.venv/
+.idea/
+.vscode/
+*.swp
+*.swo
+
+*.log
+logs/
+
+data/
+models/
+notebooks/
+*.ipynb
+
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environments
+.env
+.venv
 env/
 venv/
 ENV/
 
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-.DS_Store
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
 
-# Build artifacts
-build/
-dist/
-*.egg-info/
-.cache/
-.coverage
-htmlcov/
-
-# Logs
-*.log
-
-# EXCEPTION: .gitkeep files are allowed (they're empty placeholders)
-!.gitkeep
+# Pyre type checker
+.pyre/

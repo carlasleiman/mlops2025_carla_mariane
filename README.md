@@ -28,7 +28,7 @@ mlops2025_carla_mariane/
 ├── docker-compose.yml # Multi-container (Carla)
 ├── pyproject.toml # Package config (Carla)
 ├── uv.lock # Locked dependencies (Carla)
-└── README.md # Documentation (Carla)
+└── README.md # Documentation (Mariane)
 
 text
 

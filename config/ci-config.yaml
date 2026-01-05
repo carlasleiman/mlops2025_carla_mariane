@@ -1,0 +1,4 @@
+ci:
+  python_version: "3.9"
+  test_coverage: 80
+  lint_max_line_length: 127

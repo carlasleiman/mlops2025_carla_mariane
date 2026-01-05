@@ -1,33 +1,38 @@
-# Ignore Python cache
+# From ci/setup
+.git
+__pycache__
+*.pyc
+.env
+venv/
+.venv/
+
+# From main branch
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Ignore virtual environment
 .venv/
 env/
 venv/
 
-# Ignore IDE files
-.vscode/
 .idea/
+.vscode/
 *.swp
 *.swo
 
-# Ignore data and model directories (mounted as volumes)
+*.log
+logs/
+
+data/
+models/
+notebooks/
+*.ipynb
+
+.DS_Store
+Thumbs.db
+
+# Additional from main (from screenshot)
 data/
 models/
 reports/
 mlflow_data/
-
-# Ignore Git
-.git/
-.gitignore
-
-# Ignore macOS files
-.DS_Store
-
-# Ignore test and notebook files
-tests/
-notebooks/
-*.ipynb
