@@ -1,13 +1,17 @@
 """
-SageMaker pipelines module for NYC Taxi Trip Duration.
+Pipeline module for NYC Taxi project.
 """
 
-from .sagemaker_train import SageMakerTrainingPipeline
-from .sagemaker_inference import SageMakerInferencePipeline
-from .orchestrator import SageMakerOrchestrator
+from .pipeline import TaxiPipeline, main
 
-__all__ = [
-    "SageMakerTrainingPipeline",
-    "SageMakerInferencePipeline",
-    "SageMakerOrchestrator"
-]
+__all__ = ['TaxiPipeline', 'main']
+
+# Optional imports - don't fail if SageMaker dependencies are missing
+try:
+    from .sagemaker_train import SageMakerTrainingPipeline
+    from .sagemaker_inference import SageMakerInferencePipeline
+    __all__.extend(['SageMakerTrainingPipeline', 'SageMakerInferencePipeline'])
+    print("[INFO] SageMaker pipelines available")
+except ImportError as e:
+    # Don't print error to avoid confusion
+    pass
