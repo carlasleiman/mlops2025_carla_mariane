@@ -14,8 +14,8 @@ mlops2025_carla_mariane/
 │ ├── features/ # Feature engineering (Mariane)
 │ ├── train/ # Training modules (Carla)
 │ ├── inference/ # Inference modules (Mariane)
-│ ├── pipelines/ # Pipeline orchestration(Carla)
-│ ├── utils/ # Utility functions(Mariane)
+│ ├── pipelines/ # Pipeline orchestration (Carla)
+│ ├── utils/ # Utility functions (Mariane)
 │ └── init.py
 ├── scripts/
 │ ├── preprocess.py # Data preprocessing (Carla)
@@ -28,7 +28,7 @@ mlops2025_carla_mariane/
 ├── docker-compose.yml # Multi-container (Carla)
 ├── pyproject.toml # Package config (Carla)
 ├── uv.lock # Locked dependencies (Carla)
-└── README.md # Documentation (Mariane)
+└── README.md # Documentation (Carla)
 
 text
 
@@ -112,6 +112,8 @@ CI/Setup: GitHub Actions workflow, project structure
 Configuration: OmegaConf config management
 
 Packaging: src/ layout, pyproject.toml
+
+Documentation: README.md
 
 Mariane
 Features: Feature engineering, distance calculations
