@@ -1,6 +1,38 @@
+# From ci/setup
 .git
 __pycache__
 *.pyc
 .env
 venv/
 .venv/
+
+# From main branch
+__pycache__/
+*.py[cod]
+*$py.class
+
+.venv/
+env/
+venv/
+
+.idea/
+.vscode/
+*.swp
+*.swo
+
+*.log
+logs/
+
+data/
+models/
+notebooks/
+*.ipynb
+
+.DS_Store
+Thumbs.db
+
+# Additional from main (from screenshot)
+data/
+models/
+reports/
+mlflow_data/

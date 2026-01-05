@@ -10,3 +10,48 @@ docker-image.tar
 
 # OS
 .DS_Store
+
+# From main branch
+*$py.class
+
+.idea/
+.vscode/
+*.swp
+*.swo
+
+*.log
+logs/
+
+data/
+models/
+notebooks/
+*.ipynb
+
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
