@@ -1,6 +1,11 @@
 # mlops2025_carla_mariane
-
 End-to-End ML Project - NYC Taxi Trip Duration Prediction
+🚖 NYC Taxi Trip Duration Prediction - MLOps Project
+Task: Predict NYC taxi trip duration (regression)
+Dataset: NYC Taxi Trip Duration | Kaggle
+Team: Carla & Mariane
+Course: MLOps Course - USJ
+Repository: mlops2025_carla_mariane
 
 mlops2025_carla_mariane/
 
