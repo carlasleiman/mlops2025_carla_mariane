@@ -1,0 +1,16 @@
+# Training configuration
+train:
+  test_size: 0.2
+  random_state: 42
+  cv_folds: 5
+  scoring: "neg_root_mean_squared_error"
+  
+models:
+  random_forest:
+    n_estimators: 100
+    max_depth: 10
+    
+  xgboost:
+    n_estimators: 100
+    max_depth: 6
+    learning_rate: 0.1
