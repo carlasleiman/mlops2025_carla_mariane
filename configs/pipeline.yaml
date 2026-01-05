@@ -1,0 +1,10 @@
+paths:
+  train_csv: "data/train.csv"
+  test_csv: "data/test.csv"
+  artifact_dir: "models/"
+  output_dir: "outputs/"
+
+train:
+  metric: "rmse"
+  test_size: 0.2
+  seed: 42

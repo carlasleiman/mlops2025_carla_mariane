@@ -1,0 +1,22 @@
+# Main pipeline configuration
+project:
+  name: "nyc_taxi_trip_duration"
+  version: "1.0.0"
+
+paths:
+  data_dir: "data"
+  train_data: "data/train.csv"
+  test_data: "data/test.csv"
+  models_dir: "models"
+  outputs_dir: "outputs"
+  logs_dir: "logs"
+
+pipeline:
+  stages:
+    - preprocess
+    - feature_engineering
+    - train
+    - inference
+  
+  evaluation_metric: "rmse"
+  random_seed: 42
