@@ -1,19 +1,15 @@
-# NYC Taxi MLOps Project Dockerfile
-# Python 3.11 as required by project
+FROM python:3.9-slim
 
-FROM python:3.11-slim
-
-# Set working directory
 WORKDIR /app
 
-# Install uv for dependency management
-RUN pip install --no-cache-dir uv
+# Install uv (fast Python package installer)
+RUN pip install uv
 
 # Copy dependency files
 COPY pyproject.toml uv.lock ./
 
 # Install dependencies using uv
-RUN uv sync --frozen
+RUN uv pip install --system -r uv.lock
 
 # Copy source code
 COPY src/ ./src/
